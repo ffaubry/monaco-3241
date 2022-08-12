@@ -1,4 +1,5 @@
-import { Component, Host, h, getAssetPath } from '@stencil/core';
+import { Component, Host, h, getAssetPath, Element, ComponentInterface } from '@stencil/core';
+import { editor } from 'monaco-editor';
 
 (self as any).MonacoEnvironment = {
   getWorkerUrl: function (_: any, label: string) {
@@ -6,10 +7,10 @@ import { Component, Host, h, getAssetPath } from '@stencil/core';
     switch (label) {
       case 'typescript':
       case 'javascript':
-        return `${assetPath}/code-editor/ts.worker.js`;
+        return `${assetPath}/monaco-editor/ts.worker.js`;
 
       default: {
-        return `${assetPath}/code-editor/editor.worker.js`;
+        return `${assetPath}/monaco-editor/editor.worker.js`;
       }
     }
   },
@@ -18,14 +19,35 @@ import { Component, Host, h, getAssetPath } from '@stencil/core';
 @Component({
   tag: 'monaco-editor',
   styleUrl: 'monaco-editor.css',
-  shadow: true,
+  assetsDirs: ['assets'],
+  // shadow: true,
 })
-export class MonacoEditor {
+export class MonacoEditor implements ComponentInterface {
+  @Element() hostElt: HTMLMonacoEditorElement;
+  editorInstance: editor.IStandaloneCodeEditor;
+
+  async componentDidLoad(): Promise<void> {
+    this.editorInstance = editor.create(this.hostElt, {
+      value: 'function f',
+      language: 'javascript',
+      // Need this line for some hover widgets to show up correctly
+      fixedOverflowWidgets: true,
+      automaticLayout: true,
+      minimap: { enabled: false },
+      tabSize: 2,
+    });
+
+    const fontDeclarationElement: HTMLStyleElement = document.createElement('style');
+    fontDeclarationElement.textContent = `
+      @font-face {
+        font-family: "codicon";
+        src: url(${getAssetPath('./assets/code-editor/codicon.ttf')}) format("truetype");
+      }
+    `;
+    document.head.append(fontDeclarationElement);
+  }
+
   render() {
-    return (
-      <Host>
-        <slot></slot>
-      </Host>
-    );
+    return <Host />;
   }
 }

@@ -6,10 +6,18 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface EditorContainer {
+    }
     interface MonacoEditor {
     }
 }
 declare global {
+    interface HTMLEditorContainerElement extends Components.EditorContainer, HTMLStencilElement {
+    }
+    var HTMLEditorContainerElement: {
+        prototype: HTMLEditorContainerElement;
+        new (): HTMLEditorContainerElement;
+    };
     interface HTMLMonacoEditorElement extends Components.MonacoEditor, HTMLStencilElement {
     }
     var HTMLMonacoEditorElement: {
@@ -17,13 +25,17 @@ declare global {
         new (): HTMLMonacoEditorElement;
     };
     interface HTMLElementTagNameMap {
+        "editor-container": HTMLEditorContainerElement;
         "monaco-editor": HTMLMonacoEditorElement;
     }
 }
 declare namespace LocalJSX {
+    interface EditorContainer {
+    }
     interface MonacoEditor {
     }
     interface IntrinsicElements {
+        "editor-container": EditorContainer;
         "monaco-editor": MonacoEditor;
     }
 }
@@ -31,6 +43,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "editor-container": LocalJSX.EditorContainer & JSXBase.HTMLAttributes<HTMLEditorContainerElement>;
             "monaco-editor": LocalJSX.MonacoEditor & JSXBase.HTMLAttributes<HTMLMonacoEditorElement>;
         }
     }
