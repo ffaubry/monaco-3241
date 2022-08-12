@@ -1,4 +1,4 @@
-@import '~monaco-editor/min/vs/editor/editor.main.css';
+@import '~monaco-editor/dev/vs/editor/editor.main.css';
 
 :host,
 monaco-editor {
@@ -9,6 +9,7 @@ monaco-editor {
   direction: ltr;
 }
 
-.monaco-editor {
+:host > div,
+monaco-editor > div {
   flex: 1 1 auto;
 }

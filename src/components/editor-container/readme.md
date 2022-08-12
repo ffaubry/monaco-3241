@@ -1,4 +1,4 @@
-# monaco-editor
+# editor-container
 
 
 
@@ -7,15 +7,15 @@
 
 ## Dependencies
 
-### Used by
+### Depends on
 
- - [editor-container](../editor-container)
+- [monaco-editor](../monaco-editor)
 
 ### Graph
 ```mermaid
 graph TD;
   editor-container --> monaco-editor
-  style monaco-editor fill:#f9f,stroke:#333,stroke-width:4px
+  style editor-container fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

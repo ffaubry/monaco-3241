@@ -24,10 +24,11 @@ import { editor } from 'monaco-editor';
 })
 export class MonacoEditor implements ComponentInterface {
   @Element() hostElt: HTMLMonacoEditorElement;
+  editorElt: HTMLDivElement = null;
   editorInstance: editor.IStandaloneCodeEditor;
 
   async componentDidLoad(): Promise<void> {
-    this.editorInstance = editor.create(this.hostElt, {
+    this.editorInstance = editor.create(this.editorElt, {
       value: 'function f',
       language: 'javascript',
       // Need this line for some hover widgets to show up correctly
@@ -35,19 +36,24 @@ export class MonacoEditor implements ComponentInterface {
       automaticLayout: true,
       minimap: { enabled: false },
       tabSize: 2,
+      useShadowDOM: false,
     });
 
     const fontDeclarationElement: HTMLStyleElement = document.createElement('style');
     fontDeclarationElement.textContent = `
       @font-face {
         font-family: "codicon";
-        src: url(${getAssetPath('./assets/code-editor/codicon.ttf')}) format("truetype");
+        src: url(${getAssetPath('./assets/monaco-editor/codicon.ttf')}) format("truetype");
       }
     `;
     document.head.append(fontDeclarationElement);
   }
 
   render() {
-    return <Host />;
+    return (
+      <Host>
+        <div ref={e => (this.editorElt = e)} />
+      </Host>
+    );
   }
 }

@@ -6,6 +6,7 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'dist',
+      copy: [],
     },
     {
       type: 'dist-custom-elements',
@@ -17,16 +18,7 @@ export const config: Config = {
       type: 'www',
       baseUrl: 'https://myapp.local/',
       serviceWorker: null,
-      copy: [
-        {
-          src: '../node_modules/monaco-editor/min/vs/base/browser/ui/codicons/codicon',
-          dest: 'build/components/monaco-editor/assests',
-        },
-        {
-          src: '../node_modules/monaco-editor/esm/vs/language/typescript',
-          dest: 'build/components/monaco-editor/assests',
-        },
-      ],
+      copy: [],
     },
   ],
 };
